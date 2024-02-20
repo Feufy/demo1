@@ -25,6 +25,27 @@ for id,name in zip(cur_id,l_name):
 wd.quit()
 date=input()
 Cur=input()
+T_cur=dic[Cur]
 dr=webdriver.Chrome()
 dr.get("https://srh.bankofchina.com/search/whpj/search_cn.jsp")
-
+from selenium.webdriver.support.select import Select
+select=dr.find_element(By.ID,"pjname")
+options_list = Select(select).options
+for option in options_list:
+    print(option.text)
+Select(select).select_by_value(T_cur)
+#完成国家货币选择
+date_field = dr.find_element(By.NAME,"erectDate")
+date_field.clear()
+date_field.send_keys(date)
+date_field.submit()
+date_field = dr.find_element(By.NAME,"nothing")
+date_field.clear()
+date_field.send_keys(date)
+date_field.submit()
+cur_name=dr.find_elements(By.CSS_SELECTOR,'table tbody tr:nth-child(2) td:nth-child(4)')
+for x in cur_name:
+    print(x.text)
+    break
+#输入是时间和货币代码
+#输出是卖出价
